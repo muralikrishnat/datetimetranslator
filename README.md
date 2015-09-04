@@ -85,10 +85,16 @@ Same as date filter ,it displays full Date time format as we mentioned in config
 we can pass format name  as per provided format in config JSON, will render respective date format
 
 ```
+//$translate.use() returns "en-US"
 {{ datetimeStamp | datetimetranslator:'fullDate':true}} //5 minutes ago
 ```
 
-Pass second param of filter as 'true' it will display TimeAgo format as in above example... one min ago,4 hours ago,one day ago......etc.,
+```
+//$translate.use() returns "ja-JP"
+{{ datetimeStamp | datetimetranslator:'fullDate':true}} //5 分前
+```
+
+Pass second param of filter as 'true' it will display TimeAgo format as in above example... one min ago,4 hours ago,one day ago......etc., based on language which $translate using as locale.
 
 examples are provided in index.html under the package.
 
