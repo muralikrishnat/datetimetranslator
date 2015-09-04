@@ -12,42 +12,31 @@ $EmTeeTranslator.provider('datetranslator', [function () {
       timeAgoDefaultDays: 2
     }
   };
-  var TranslationData = {
-    SupportedLanguages: ["en-us", "ja-jp", "it-ir", "ko-kr"],
+  var FallbackTranslationData = {
     TranslationsInLocale: {
-      "en-us": {
+      FallBackLanguageName: {
         "Weeks": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         "ShortWeeks": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         "Months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         "ShortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         "TimeAgo": ["just now", "one minute ago", "{{min}}minutes ago", "an hour ago", "{{hours}}hours ago", "one day ago", "{{days}}days ago"],
         "ShortTimeAgo": ["just now", "1m ago", "{{min}}m ago", "1h ago", "{{hours}}h ago", "1d ago", "{{days}}d ago"],
-      },
-      "ja-jp": {
-        "Weeks": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "ShortWeeks": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        "Months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        "TimeAgo": ["just now", "one minute ago", "{{min}}minutes ago", "an hour ago", "{{hours}}hours ago", "one day ago", "{{days}}days ago"],
-        "ShortTimeAgo": ["just now", "1m ago", "{{min}}m ago", "1h ago", "{{hours}}h ago", "1d ago", "{{days}}d ago"]
       }
     },
     DateTimeFormats: {
-      "en-US": {
-        "fullDate": "{{day}} {{monthname}}, {{year}}",
-        "fullDateTime": "{{weekname}}, {{hrs}}:{{min}} {{apm}} {{monthname}} {{day}}, {{year}}"
-      },
-      "ja-JP": {
-        "fullDate": "{{day}} {{monthname}}, {{year}}",
-        "fullDateTime": "{{weekname}}, {{hrs}}:{{min}} {{apm}} {{monthname}} {{day}}, {{year}}"
-      },
-      "it-ir": {
-        "fullDate": "{{day}} {{monthname}}, {{year}}",
-        "fullDateTime": "{{weekname}}, {{hrs}}:{{min}} {{apm}} {{monthname}} {{day}}, {{year}}"
-      },
-      "en-US": {
+      FallBackLanguageName: {
         "fullDate": "{{day}} {{monthname}}, {{year}}",
         "fullDateTime": "{{weekname}}, {{hrs}}:{{min}} {{apm}} {{monthname}} {{day}}, {{year}}"
       }
+    }
+  };
+  var TranslationData = {
+    SupportedLanguages: ["en-us", "ja-jp"],
+    TranslationsInLocale: {
+
+    },
+    DateTimeFormats: {
+
     }
   };
   var getBrowserSupportedLanguages = function () {
@@ -101,33 +90,36 @@ $EmTeeTranslator.provider('datetranslator', [function () {
       if (outputDate) {
         var currentDateTimeStamp = new Date().getTime();
         var timeSince = currentDateTimeStamp - parseInt(outputDate.getTime(), 10);
+        console.log(new Date(currentDateTimeStamp), outputDate);
         if (isTimeAgo) {
           var secondsAgo = Math.floor(timeSince / 1000);
           if (secondsAgo < 60) {
-            return "Just Now";
+            return TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()] ? (TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()]["TimeAgo"] ? TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()]["TimeAgo"][0] : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.TimeAgo[0] ) : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.TimeAgo[0] ;
           }
           var minutesAgo = Math.floor(secondsAgo / 60);
           if (minutesAgo < 60) {
             if (minutesAgo < 2) {
-              return "one minute ago";
+              return TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()] ? TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()]["TimeAgo"][1] : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.TimeAgo[1] ;
             }
-
-            return minutesAgo + ' minutes ago';
+            var returnString = TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()] ? TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()]["TimeAgo"][2] : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.TimeAgo[2];
+            return returnString.replace('{{min}}', minutesAgo);
           }
 
           var hoursAgo = Math.floor(minutesAgo / 60);
           if (hoursAgo < 24) {
             if (hoursAgo < 2) {
-              return "an hour ago"
+              return TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()] ? TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()]["TimeAgo"][3] : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.TimeAgo[3];
             }
-            return hoursAgo + ' hours ago';
+            var returnString = TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()] ? TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()]["TimeAgo"][4] : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.TimeAgo[4];
+            return returnString.replace('{{hours}}', hoursAgo);
           }
 
           var daysAgo = Math.floor(hoursAgo / 24);
           if (daysAgo < 2) {
-            return "one day ago";
+            return TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()] ? TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()]["TimeAgo"][5] : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.TimeAgo[5];
           }
-          return daysAgo + ' days ago';
+          var resturnString = TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()] ? TranslationData.TranslationsInLocale[ServiceInjector.getLocale().toUpperCase()]["TimeAgo"][6] : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.TimeAgo[6];
+          return  resturnString.replace('{{days}}', daysAgo);;
         }
 
         var hours = outputDate.getHours();
@@ -137,12 +129,10 @@ $EmTeeTranslator.provider('datetranslator', [function () {
         hours = hours ? hours : 12;
         minutes = minutes < 10 ? '0' + minutes : minutes;
 
-        //console.log(dateFormat, ServiceInjector.getLocale(), TranslationData.DateTimeFormats);
         var fallBackDateFormat = null;
         var selectedDateTimeFormat = null;
         for (var formatKey in TranslationData.DateTimeFormats) {
           if (formatKey.toUpperCase() === ServiceInjector.getLocale().toUpperCase()) {
-            console.log(TranslationData.DateTimeFormats[formatKey]);
             selectedDateTimeFormat = TranslationData.DateTimeFormats[formatKey][dateFormat] || TranslationData.DateTimeFormats[formatKey][DateTimeTranslatorConfig.defaults.dateTimeFormat];
             break;
           }
@@ -151,7 +141,7 @@ $EmTeeTranslator.provider('datetranslator', [function () {
             fallBackDateFormat = TranslationData.DateTimeFormats[formatKey][dateFormat] || TranslationData.DateTimeFormats[formatKey][DateTimeTranslatorConfig.defaults.dateTimeFormat];
           }
         }
-        selectedDateTimeFormat = selectedDateTimeFormat || fallBackDateFormat || "";
+        selectedDateTimeFormat = selectedDateTimeFormat || fallBackDateFormat || FallbackTranslationData.DateTimeFormats.FallBackLanguageName[DateTimeTranslatorConfig.defaults.dateTimeFormat];
         var monthNames = [],
           fallBackMonthNames = [],
           shortMonthNames = [],
@@ -176,11 +166,10 @@ $EmTeeTranslator.provider('datetranslator', [function () {
             fallBackShortWeekNames = TranslationData.TranslationsInLocale[langKey]["ShortWeeks"];
           }
         }
-
-        monthNames = monthNames || fallBackMonthNames;
-        shortMonthNames = shortMonthNames || fallbackShortMonthNames;
-        weekNames = weekNames || fallBackWeekNames;
-        shortWeekNames = shortWeekNames || fallBackShortWeekNames;
+        monthNames = monthNames.length > 0 ? monthNames : (fallBackMonthNames.length > 0 ? fallBackMonthNames : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.Months);
+        shortMonthNames = shortMonthNames.length > 0 ? shortMonthNames : (fallbackShortMonthNames.length > 0 ? fallbackShortMonthNames : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.ShortMonths);
+        weekNames = weekNames.length > 0 ? weekNames : (fallBackWeekNames.length > 0 ? fallBackWeekNames : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.Weeks);
+        shortWeekNames = shortWeekNames.length > 0 ? shortWeekNames : (fallBackShortWeekNames.length > 0 ? fallBackShortWeekNames : FallbackTranslationData.TranslationsInLocale.FallBackLanguageName.ShortWeeks);
         var compiledDate = selectedDateTimeFormat.replace('{{year}}', outputDate.getFullYear())
           .replace('{{monthname}}', monthNames[outputDate.getMonth()])
           .replace('{{shortmonthname}}', shortMonthNames[outputDate.getMonth()])
@@ -206,13 +195,13 @@ $EmTeeTranslator.provider('datetranslator', [function () {
     };
 
     ServiceInjector.setLocale = function (fallBackLang) {
-      var supportedLanguages = TranslationData.SupportedLanguages;
+      var supportedLanguages = (TranslationData.SupportedLanguages || []) || ['en-us'];
       var browserLanguages = getBrowserSupportedLanguages();
       var foundLanguage = null;
       for (var langIndex = 0; langIndex < browserLanguages.length; langIndex++) {
         for (var supLangIndex = 0; supLangIndex < supportedLanguages.length; supLangIndex++) {
-          if (supportedLanguages[langIndex].toLocaleLowerCase().indexOf(browserLanguages.toLowerCase()) >= 0) {
-            foundLanguage = supportedLanguages[langIndex].toLocaleLowerCase();
+          if (supportedLanguages[supLangIndex].toLocaleLowerCase().indexOf(browserLanguages[langIndex].toLowerCase()) >= 0) {
+            foundLanguage = supportedLanguages[supLangIndex].toLocaleLowerCase();
             break;
           }
         }
@@ -231,6 +220,6 @@ $EmTeeTranslator.filter('datetimeTranslator', ['$translate', 'datetranslator', f
   return function (input, format, isTimeAgo) {
     format = format || datetranslator.Defaults.dateTimeFormat;
     var isTimeAgoEnabled = isTimeAgo ? true : false;
-    return datetranslator.parseDate(input, format, isTimeAgo) || "";
+    return datetranslator.parseDate(input || "", format, isTimeAgo) || "";
   };
       }]);
