@@ -73,7 +73,13 @@ As of now , should pass translated string with repective to languages as JSON fo
 Same as date filter ,it displays full Date time format as we mentioned in config JSON.
 
 ```
-{{ datetimeStamp | datetimetranslator:'fullDate'}} //10 October, 2014
+//$translate.use() returns "en-US"
+{{ datetimeStamp | datetimetranslator:'fullDate'}} //10 October, 2014 
+```
+
+```
+//$translate.use() returns "ja-JP"
+{{ datetimeStamp | datetimetranslator:'fullDate'}} //10月 10日,2014 
 ```
 
 we can pass format name  as per provided format in config JSON, will render respective date format
@@ -82,7 +88,7 @@ we can pass format name  as per provided format in config JSON, will render resp
 {{ datetimeStamp | datetimetranslator:'fullDate':true}} //5 minutes ago
 ```
 
-Pass second param of filter as 'true' it will display TimeAgo format as showen above... one min ago,4 hours ago,one day ago......etc.,
+Pass second param of filter as 'true' it will display TimeAgo format as in above example... one min ago,4 hours ago,one day ago......etc.,
 
 examples are provided in index.html under the package.
 
