@@ -1,0 +1,35 @@
+{
+  "name": "datetime-translator-locale",
+  "version": "0.0.1",
+  "authors": [
+    "Muralikrishna T"
+  ],
+  "description": "translating datetime using browser locale",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "datetime",
+    "translate",
+    "locale",
+    "angular"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:muralikrishnat/datetimetranslator.git"
+  },
+  "dependencies": {
+    "angular": "^1.2.x",
+    "angular-translate": "~2.7.2"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

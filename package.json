@@ -1,0 +1,23 @@
+{
+  "name": "datetimetranslator",
+  "version": "1.0.0",
+  "description": "Date time translation using browser locale",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muralikrishnat/datetimetranslator.git"
+  },
+  "keywords": [
+    "datetime",
+    "locale"
+  ],
+  "author": "Muralikrishna T",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muralikrishnat/datetimetranslator/issues"
+  },
+  "homepage": "https://github.com/muralikrishnat/datetimetranslator#readme"
+}

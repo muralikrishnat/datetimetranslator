@@ -1,0 +1,65 @@
+<html>
+
+<head>
+  <title>Bower Component Test File</title>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-translate/angular-translate.min.js"></script>
+  <script src="datetime-translator-locale.js"></script>
+</head>
+
+<body>
+  <div id="App1ID" ng-app="App1">
+    <div>This is testing Page</div>
+    <div>{{ 1 + 3}}</div>
+    <div ng-controller="C1">
+      <div>{{ CurrentTime1 | datetimeTranslator:'fdgfg':true}}</div>
+<!--
+      <div>{{ CurrentTime2 | datetimeTranslator}}</div>
+      <div>{{ CurrentTime3 | datetimeTranslator}}</div>
+      <div>{{ CurrentTime4 | datetimeTranslator}}</div>
+      <div>{{ CurrentTime5 | datetimeTranslator}}</div>
+      <div>{{ CurrentTime6 | datetimeTranslator}}</div>
+      <div>{{ CurrentTime7 | datetimeTranslator}}</div>
+-->
+    </div>
+  </div>
+  <script type="text/javascript">
+    var App1 = angular.module("App1", ['pascalprecht.translate', 'EmTee360']);
+    App1.config(function(datetranslatorProvider, $translateProvider) {
+      $translateProvider.translations('en-us', {
+        TITLE: 'Hello',
+        FOO: 'This is a paragraph.',
+        BUTTON_LANG_EN: 'english',
+        BUTTON_LANG_DE: 'german'
+      });
+      $translateProvider.translations('ja-jp', {
+        TITLE: 'Hallo',
+        FOO: 'Dies ist ein Paragraph.',
+        BUTTON_LANG_EN: 'englisch',
+        BUTTON_LANG_DE: 'deutsch'
+      });
+      $translateProvider.preferredLanguage('en-us');
+
+
+    });
+    App1.controller('C1', function($scope) {
+      $scope.CurrentTime1 = (new Date()).getTime().toString();
+      $scope.CurrentTime2 = (new Date);
+      $scope.CurrentTime3 = '10/10/2014';
+      $scope.CurrentTime4 = '10 10 2014';
+      $scope.CurrentTime5 = 'Aug 10, 2014';
+      $scope.CurrentTime6 = 'gfhdfh45456';
+      $scope.CurrentTime7 = '2017 10 15';
+    });
+    App1.run(['datetranslator', '$translate', function(datetranslator, $translate) {
+      console.log($translate.use());
+    }]);
+
+    App1.run(['datetranslator', function(datetranslator) {
+      //console.log(datetranslator.checkMe());
+    }]);
+
+  </script>
+</body>
+
+</html>
