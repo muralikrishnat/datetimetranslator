@@ -14,7 +14,7 @@ $bower install datetimetranslator
 ```
 ##Config :
 
-```
+```javascript
 var datetranslationConfig = {
   SupportedLanguages: ['en-us', 'ja-jp'],
   TranslationsInLocale: {
