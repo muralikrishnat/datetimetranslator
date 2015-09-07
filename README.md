@@ -109,4 +109,5 @@ examples are provided in index.html under the package.
 1. Providing much better configurable Options (Working).
 2. executing every test case in every possible outcomes (Working).
 3. Reduce Config Options by using existing APIs for getting translated Strings (Future Sprint).
+4. Implementing directive same as filter with dynamic refreshing (Future Sprint).
  
